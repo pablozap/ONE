@@ -1,0 +1,37 @@
+<meta charset="UTF-8">
+<canvas id="canva" width="600" height="400"></canvas>
+<script>
+    var pantalla = document.querySelector("canvas")
+    var pincel = pantalla.getContext("2d");
+    var xAleatorio, yAleatorio, radio = 10;
+    pincel.fillStyle = "lightgrey";
+    pincel.fillRect(0, 0, 600, 400);
+    
+    function dibujarCirculo(){
+        xAleatorio = Math.floor(Math.random()*600) - pantalla.offsetLeft;
+        yAleatorio = Math.floor(Math.random()*400) - pantalla.offsetTop;
+        pincel.clearRect(0, 0, pantalla.width, pantalla.height);
+        circulo(xAleatorio, yAleatorio, radio + 20, "red");
+        circulo(xAleatorio, yAleatorio, radio + 10, "white");
+        circulo(xAleatorio, yAleatorio, radio, "red");
+    }
+
+    function circulo(x, y, radio, color){
+        pincel.fillStyle = color;
+        pincel.beginPath();
+        pincel.arc(x, y, radio, 0, 2*Math.PI);
+        pincel.fill();
+        pincel.closePath();
+    }
+
+    function disparar(evento){
+        var x = evento.pageX - pantalla.offsetLeft;
+        var y = evento.pageY - pantalla.offsetTop;
+        if((x < xAleatorio + radio)&&(x > xAleatorio - radio)&&(y < yAleatorio + radio)&&(y>yAleatorio-radio)){
+            alert("Le atinaste mi rey ");
+        }
+    }
+    
+    setInterval(dibujarCirculo, 1000);
+    pantalla.onclick = disparar;    
+</script>
